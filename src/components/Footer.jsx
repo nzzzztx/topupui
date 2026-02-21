@@ -8,12 +8,12 @@ const images = import.meta.glob("../assets/img/*.png", {
 export default function Footer() {
 
     const favoriteProducts = [
-        "mobile_legends.png",
-        "free_fire.png",
-        "valorant.png",
-        "genshin_impact.png",
-        "pubg_mobile.png",
-        "delta_force.png",
+        { file: "mobile_legends.png", slug: "mobile-legends" },
+        { file: "free_fire.png", slug: "free-fire" },
+        { file: "valorant.png", slug: "valorant" },
+        { file: "genshin_impact.png", slug: "genshin-impact" },
+        { file: "pubg_mobile.png", slug: "pubg-mobile" },
+        { file: "delta_force.png", slug: "delta-force" },
     ]
 
     const integrations = [
@@ -73,25 +73,25 @@ export default function Footer() {
                             Produk Favorit
                         </h3>
 
-                        <div className="grid grid-cols-3 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 justify-items-center md:justify-items-start">
-                            {favoriteProducts.map((file, i) => {
-                                const img = images[`../assets/img/${file}`]
+                        <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-6 justify-items-center md:justify-items-start">
+                            {favoriteProducts.map((item, i) => {
+                                const img = images[`../assets/img/${item.file}`]
                                 if (!img) return null
 
                                 return (
-                                    <div
+                                    <Link
                                         key={i}
-                                        className="w-[120px] h-[120px] bg-[#111827] p-1 rounded-lg border border-[#1f2937] hover:border-blue-500 transition"
+                                        to={`/product/${item.slug}`}
+                                        className="w-[110px] h-[110px] bg-[#111827] p-1 rounded-xl border border-[#1f2937] hover:border-blue-500 hover:scale-105 transition-all duration-300"
                                     >
                                         <img
                                             src={img}
-                                            alt=""
+                                            alt={item.slug}
                                             className="w-full h-full object-cover rounded-md"
                                         />
-                                    </div>
+                                    </Link>
                                 )
                             })}
-
                         </div>
 
                         <div className="pt-6 border-t border-[#1f2937] overflow-hidden">
@@ -127,7 +127,7 @@ export default function Footer() {
                         <Link to="#" className="hover:text-white transition">Masuk</Link>
                         <Link to="#" className="hover:text-white transition">Daftar</Link>
                         <Link to="#" className="hover:text-white transition">Reseller</Link>
-                        <Link to="#" className="hover:text-white transition">Cek Pesanan</Link>
+                        <Link to="/pesanan" className="hover:text-white transition">Cek Pesanan</Link>
                         <Link to="#" className="hover:text-white transition">Kontak</Link>
                     </div>
 

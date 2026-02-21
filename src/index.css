@@ -2,39 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-[#0b1220];
+/* GLOBAL */
+html,
+body,
+#root {
+  min-height: 100%;
 }
 
-/* Hero Navigation Arrow */
+body {
+  @apply bg-[#0b1220] text-white antialiased;
+  overflow-x: hidden;
+}
 
+/* ====== Swiper Navigation ====== */
 .hero-swiper .swiper-button-next,
 .hero-swiper .swiper-button-prev {
   width: 32px;
   height: 32px;
   background: rgba(0, 0, 0, 0.55);
   border-radius: 9999px;
-  backdrop-filter: blur(6px);
+  /* backdrop-filter: blur(6px); */
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
 }
 
-/* Hilangkan icon default swiper */
 .hero-swiper .swiper-button-next::after,
 .hero-swiper .swiper-button-prev::after {
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 10px;
+  font-weight: 600;
   color: white;
 }
 
-/* Hover */
 .hero-swiper .swiper-button-next:hover,
 .hero-swiper .swiper-button-prev:hover {
   background: rgba(0, 0, 0, 0.75);
 }
 
+/* ====== Marquee ====== */
 @keyframes marquee {
   0% {
     transform: translateX(0%);
@@ -45,5 +51,68 @@ body {
 }
 
 .animate-marquee {
-  animation: marquee 20s linear infinite;
+  animation: marquee 25s linear infinite;
+  will-change: transform;
 }
+
+/* ====== Modal ====== */
+@keyframes modalIn {
+  0% {
+    transform: scale(0.94) translateY(12px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.02) translateY(-2px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-modalIn {
+  animation: modalIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ====== Fade ====== */
+@keyframes fadeInSoft {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeInSoft 0.45s ease-out;
+}
+
+/* ====== Scrollbar ====== */
+/* * {
+  scrollbar-width: thin;
+  scrollbar-color: #3b82f6 transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3b82f6, #2563eb);
+  border-radius: 10px;
+} */
+
+/* .no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+} */

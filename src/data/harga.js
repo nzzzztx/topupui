@@ -1,0 +1,227 @@
+export const categories = [
+  {
+    name: "Games",
+    icon: "https://cdn-icons-png.flaticon.com/512/686/686589.png",
+  },
+  {
+    name: "Voucher",
+    icon: "https://cdn-icons-png.flaticon.com/128/9551/9551915.png",
+  },
+  {
+    name: "Emoney",
+    icon: "https://cdn-icons-png.flaticon.com/128/10217/10217199.png",
+  },
+  {
+    name: "Mobile",
+    icon: "https://cdn-icons-png.flaticon.com/512/15/15874.png",
+  },
+  {
+    name: "Bundle",
+    icon: "https://cdn-icons-png.flaticon.com/128/17388/17388016.png",
+  },
+];
+
+export const hargaData = [
+  /* ===================== GAMES ===================== */
+  {
+    kategori: "Games",
+    namaKategori: "Mobile Legends",
+    produk: "ML 86 Diamond",
+    member: 20000,
+    reseller: 19500,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Games",
+    namaKategori: "Mobile Legends",
+    produk: "ML 172 Diamond",
+    member: 38000,
+    reseller: 37000,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Games",
+    namaKategori: "Free Fire",
+    produk: "FF 70 Diamond",
+    member: 10000,
+    reseller: 9500,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Games",
+    namaKategori: "Free Fire",
+    produk: "FF 140 Diamond",
+    member: 19500,
+    reseller: 19000,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Games",
+    namaKategori: "PUBG Mobile",
+    produk: "PUBG 60 UC",
+    member: 15000,
+    reseller: 14500,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Games",
+    namaKategori: "Valorant",
+    produk: "475 VP",
+    member: 75000,
+    reseller: 74000,
+    status: "Tersedia",
+  },
+
+  /* ===================== VOUCHER ===================== */
+  {
+    kategori: "Voucher",
+    namaKategori: "Google Play",
+    produk: "Voucher 50.000",
+    member: 52000,
+    reseller: 51000,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Voucher",
+    namaKategori: "Google Play",
+    produk: "Voucher 100.000",
+    member: 102000,
+    reseller: 101000,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Voucher",
+    namaKategori: "Steam Wallet",
+    produk: "Steam 45.000",
+    member: 47000,
+    reseller: 46000,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Voucher",
+    namaKategori: "Spotify",
+    produk: "Spotify 1 Bulan",
+    member: 55000,
+    reseller: 54000,
+    status: "Tersedia",
+  },
+
+  /* ===================== EMONEY ===================== */
+  {
+    kategori: "Emoney",
+    namaKategori: "OVO",
+    produk: "OVO 100.000",
+    member: 102000,
+    reseller: 101000,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Emoney",
+    namaKategori: "DANA",
+    produk: "DANA 50.000",
+    member: 51000,
+    reseller: 50500,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Emoney",
+    namaKategori: "GoPay",
+    produk: "GoPay 100.000",
+    member: 102000,
+    reseller: 101000,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Emoney",
+    namaKategori: "ShopeePay",
+    produk: "ShopeePay 50.000",
+    member: 51000,
+    reseller: 50500,
+    status: "Tersedia",
+  },
+
+  /* ===================== MOBILE (PULSA & DATA) ===================== */
+  {
+    kategori: "Mobile",
+    namaKategori: "Telkomsel",
+    produk: "Pulsa 10.000",
+    member: 11000,
+    reseller: 10500,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Mobile",
+    namaKategori: "Telkomsel",
+    produk: "Pulsa 50.000",
+    member: 52000,
+    reseller: 51000,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Mobile",
+    namaKategori: "XL",
+    produk: "Pulsa 25.000",
+    member: 26500,
+    reseller: 25500,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Mobile",
+    namaKategori: "Indosat",
+    produk: "Pulsa 100.000",
+    member: 102000,
+    reseller: 101000,
+    status: "Tersedia",
+  },
+
+  {
+    kategori: "Mobile",
+    namaKategori: "Telkomsel",
+    produk: "Paket Data 10GB",
+    member: 65000,
+    reseller: 64000,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Mobile",
+    namaKategori: "XL",
+    produk: "Paket Data 15GB",
+    member: 70000,
+    reseller: 69000,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Mobile",
+    namaKategori: "Indosat",
+    produk: "Paket Data 20GB",
+    member: 85000,
+    reseller: 84000,
+    status: "Tersedia",
+  },
+
+  /* ===================== BUNDLE (PLN DLL) ===================== */
+  {
+    kategori: "Bundle",
+    namaKategori: "PLN",
+    produk: "Token PLN 20.000",
+    member: 21000,
+    reseller: 20500,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Bundle",
+    namaKategori: "PLN",
+    produk: "Token PLN 50.000",
+    member: 51000,
+    reseller: 50500,
+    status: "Tersedia",
+  },
+  {
+    kategori: "Bundle",
+    namaKategori: "PLN",
+    produk: "Token PLN 100.000",
+    member: 101000,
+    reseller: 100500,
+    status: "Tersedia",
+  },
+];

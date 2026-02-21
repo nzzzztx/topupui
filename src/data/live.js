@@ -1,0 +1,92 @@
+export const liveFallbackData = [
+  {
+    email: "nat******com",
+    product: "PUBG Mobile",
+    item: "11950 UC",
+    status: "success",
+  },
+  {
+    email: "riz******com",
+    product: "Mobile Legends",
+    item: "344 Diamond",
+    status: "success",
+  },
+  {
+    email: "ari******com",
+    product: "Free Fire",
+    item: "140 Diamond",
+    status: "failed",
+  },
+  {
+    email: "han******com",
+    product: "Genshin Impact",
+    item: "6480 Genesis",
+    status: "success",
+  },
+  {
+    email: "and******com",
+    product: "Valorant",
+    item: "475 VP",
+    status: "success",
+  },
+  {
+    email: "fad******com",
+    product: "Call of Duty Mobile",
+    item: "500 CP",
+    status: "success",
+  },
+  {
+    email: "yas******com",
+    product: "Clash of Clans",
+    item: "1200 Gems",
+    status: "success",
+  },
+  {
+    email: "ika******com",
+    product: "Steam Wallet",
+    item: "IDR 90.000",
+    status: "failed",
+  },
+  {
+    email: "rob******com",
+    product: "Roblox",
+    item: "800 Robux",
+    status: "success",
+  },
+  {
+    email: "vin******com",
+    product: "Spotify Premium",
+    item: "1 Bulan",
+    status: "success",
+  },
+  {
+    email: "dan******com",
+    product: "Mobile Legends",
+    item: "706 Diamond",
+    status: "success",
+  },
+  {
+    email: "put******com",
+    product: "Free Fire",
+    item: "720 Diamond",
+    status: "failed",
+  },
+  {
+    email: "adi******com",
+    product: "PUBG Mobile",
+    item: "325 UC",
+    status: "success",
+  },
+  {
+    email: "rey******com",
+    product: "Valorant",
+    item: "1375 VP",
+    status: "success",
+  },
+  {
+    email: "dev******com",
+    product: "Genshin Impact",
+    item: "300 Genesis",
+    status: "success",
+  },
+];

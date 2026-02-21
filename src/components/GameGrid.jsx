@@ -5,6 +5,7 @@ const images = import.meta.glob("../assets/img/*.png", {
     eager: true,
     import: "default",
 })
+
 const data = {
     GAMES: [
         "mobile_legends.png",
@@ -105,48 +106,86 @@ const data = {
 
 export default function GameGrid({ activeCategory, search }) {
 
-    const currentItems = data[activeCategory] || []
+    const allItems = Object.values(data).flat()
 
-    const filteredItems = currentItems.filter((file) =>
-        file.toLowerCase().includes(search.toLowerCase())
-    )
+    const currentItems = search
+        ? allItems
+        : data[activeCategory] || []
+
+    const filteredItems = currentItems.filter((file) => {
+        const fileName = file.replace(".png", "")
+        const cleanFile = fileName.replace(/_/g, " ").toLowerCase()
+        const normalizedSearch = search.toLowerCase().replace(/-/g, " ")
+
+        return cleanFile.includes(normalizedSearch)
+    })
 
     return (
-        <div className="px-4 md:px-16 mt-10 grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-6 md:gap-8">
+        <div className="px-4 mt-10">
+            <div className="max-w-6xl mx-auto">
 
-            {filteredItems.map((file) => {
+                <div className="
+                    grid
+                    grid-cols-2
+                    sm:grid-cols-3
+                    md:grid-cols-4
+                    lg:grid-cols-4
+                    xl:grid-cols-5
+                    gap-4
+                    md:gap-6
+                    ">
 
-                const img = images[`../assets/img/${file}`]
-                if (!img) return null
+                    {filteredItems.map((file, index) => {
 
-                const id = file.replace(".png", "").replace(/_/g, "-")
+                        const img = images[`../assets/img/${file}`]
+                        if (!img) return null
 
-                const name = file
-                    .replace(".png", "")
-                    .replace(/_/g, " ")
-                    .replace(/\b\w/g, (c) => c.toUpperCase())
+                        const id = file.replace(".png", "").replace(/_/g, "-")
 
-                return (
-                    <Link
-                        to={`/product/${id}`}
-                        key={id}
-                        className="group bg-[#111827] rounded-2xl overflow-hidden shadow-md hover:shadow-blue-500/30 transition duration-300"
-                    >
-                        <div className="aspect-square overflow-hidden">
-                            <img
-                                src={img}
-                                alt={name}
-                                className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-                            />
-                        </div>
+                        const name = file
+                            .replace(".png", "")
+                            .replace(/_/g, " ")
+                            .replace(/\b\w/g, (c) => c.toUpperCase())
 
-                        <div className="p-3 text-center text-xs md:text-sm font-medium text-white truncate">
-                            {name}
-                        </div>
-                    </Link>
-                )
-            })}
+                        return (
+                            <Link
+                                to={`/product/${id}`}
+                                key={id}
+                                style={{ animationDelay: `${index * 50}ms` }}
+                                className="
+                                    group
+                                    bg-[#111827]
+                                    rounded-2xl
+                                    overflow-hidden
+                                    shadow-md
+                                    hover:shadow-blue-500/30
+                                    transition-all duration-300
+                                    hover:-translate-y-1
+                                    animate-fadeUp
+                                "
+                            >
+                                <div className="aspect-square overflow-hidden">
+                                    <img
+                                        src={img}
+                                        alt={name}
+                                        className="
+                        w-full h-full object-cover
+                        group-hover:scale-110
+                        transition-transform duration-500
+                    "
+                                    />
+                                </div>
 
+                                <div className="p-3 text-center text-xs md:text-sm font-medium text-white truncate">
+                                    {name}
+                                </div>
+                            </Link>
+                        )
+                    })}
+
+                </div>
+
+            </div>
         </div>
     )
 }
