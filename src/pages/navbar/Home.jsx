@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Helmet } from "react-helmet";
 import Hero from "../../components/Hero"
 import Categories from "../../components/Categories"
 import InstallBanner from "../../components/InstallBanner"
@@ -10,6 +11,11 @@ export default function Home() {
 
     return (
         <>
+            <Helmet>
+                <title>XML Topup - Top Up Game Termurah</title>
+                <meta name="description" content="Top up game murah, cepat dan terpercaya hanya di XML Topup." />
+                <meta property="og:title" content="XML Topup - Top Up Game Termurah" />
+            </Helmet>
             <Hero />
             <Categories
                 activeCategory={activeCategory}

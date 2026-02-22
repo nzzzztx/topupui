@@ -1,6 +1,7 @@
 import { useAuth } from "../../context/AuthContext"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { Helmet } from "react-helmet"
 
 export default function Profile() {
     const { user, setUser } = useAuth()
@@ -59,165 +60,181 @@ export default function Profile() {
     }
 
     return (
-        <div className="w-full min-h-screen px-4 sm:px-6 py-8 sm:py-10
+        <>
+            <Helmet>
+                <title>Profil Saya - XML Topup</title>
+                <meta
+                    name="description"
+                    content="Kelola profil, keamanan akun, password, dan afiliasi Anda di XML Topup."
+                />
+                <meta property="og:title" content="Profil Saya - XML Topup" />
+                <meta
+                    property="og:description"
+                    content="Pengaturan akun XML Topup untuk mengelola data pribadi dan keamanan."
+                />
+                <meta property="og:image" content="/logofix.png" />
+            </Helmet>
+
+            <div className="w-full min-h-screen px-4 sm:px-6 py-8 sm:py-10
                 md:max-w-6xl md:mx-auto">
 
-            <h2 className="text-xl sm:text-2xl font-semibold mb-6 border-b border-blue-600 inline-block pb-2">
-                Pengaturan Akun
-            </h2>
+                <h2 className="text-xl sm:text-2xl font-semibold mb-6 border-b border-blue-600 inline-block pb-2">
+                    Pengaturan Akun
+                </h2>
 
-            <div className="flex flex-col gap-6
+                <div className="flex flex-col gap-6
                 md:grid md:grid-cols-3 md:gap-8">
 
-                {/* CARD KIRI */}
-                <div className="w-full bg-gradient-to-br from-[#0f172a] to-[#111827] 
+                    {/* CARD KIRI */}
+                    <div className="w-full bg-gradient-to-br from-[#0f172a] to-[#111827] 
                                 p-5 sm:p-7 
                                 rounded-2xl 
                                 border border-[#1f2937] 
                                 shadow-2xl">
 
-                    <h3 className="text-lg sm:text-xl font-semibold mb-6 sm:mb-8 text-blue-400 tracking-wide">
-                        {user.username}
-                    </h3>
+                        <h3 className="text-lg sm:text-xl font-semibold mb-6 sm:mb-8 text-blue-400 tracking-wide">
+                            {user.username}
+                        </h3>
 
-                    <div className="space-y-6 text-sm">
+                        <div className="space-y-6 text-sm">
 
-                        <div className="grid grid-cols-2 gap-2">
-                            <span className="text-gray-400">Jenis Member</span>
-                            <span className="text-white font-medium text-right">
-                                {user.memberType || "Basic"}
-                            </span>
+                            <div className="grid grid-cols-2 gap-2">
+                                <span className="text-gray-400">Jenis Member</span>
+                                <span className="text-white font-medium text-right">
+                                    {user.memberType || "Basic"}
+                                </span>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-2">
+                                <span className="text-gray-400">Tanggal Daftar</span>
+                                <span className="text-white font-medium text-right">
+                                    {formatDate(user.createdAt)}
+                                </span>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-2">
+                                <span className="text-gray-400">Terakhir Login</span>
+                                <span className="text-white font-medium text-right">
+                                    {formatDate(user.lastLogin)}
+                                </span>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-2">
+                                <span className="text-gray-400">Total Afiliasi</span>
+                                <span className="text-white font-medium text-right">
+                                    {user.affiliateTotal || 0}
+                                </span>
+                            </div>
+
                         </div>
-
-                        <div className="grid grid-cols-2 gap-2">
-                            <span className="text-gray-400">Tanggal Daftar</span>
-                            <span className="text-white font-medium text-right">
-                                {formatDate(user.createdAt)}
-                            </span>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-2">
-                            <span className="text-gray-400">Terakhir Login</span>
-                            <span className="text-white font-medium text-right">
-                                {formatDate(user.lastLogin)}
-                            </span>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-2">
-                            <span className="text-gray-400">Total Afiliasi</span>
-                            <span className="text-white font-medium text-right">
-                                {user.affiliateTotal || 0}
-                            </span>
-                        </div>
-
                     </div>
-                </div>
 
-                {/* CARD KANAN */}
-                <div className="w-full md:col-span-2
+                    {/* CARD KANAN */}
+                    <div className="w-full md:col-span-2
                                 bg-[#111827] 
                                 p-5 sm:p-6 
                                 rounded-2xl 
                                 border border-[#1f2937] 
                                 shadow-xl">
 
-                    {/* TAB */}
-                    <div className="flex overflow-x-auto gap-6 sm:gap-8 
+                        {/* TAB */}
+                        <div className="flex overflow-x-auto gap-6 sm:gap-8 
                                     border-b border-[#1f2937] 
                                     mb-6 text-sm whitespace-nowrap no-scrollbar">
 
-                        {["profil", "keamanan", "password", "afiliasi"].map(item => (
-                            <button
-                                key={item}
-                                onClick={() => setTab(item)}
-                                className={`pb-3 capitalize font-medium transition-all duration-200 ${tab === item
-                                    ? "border-b-2 border-blue-500 text-blue-400"
-                                    : "text-gray-400"
-                                    }`}
-                            >
-                                {item}
-                            </button>
-                        ))}
-                    </div>
+                            {["profil", "keamanan", "password", "afiliasi"].map(item => (
+                                <button
+                                    key={item}
+                                    onClick={() => setTab(item)}
+                                    className={`pb-3 capitalize font-medium transition-all duration-200 ${tab === item
+                                        ? "border-b-2 border-blue-500 text-blue-400"
+                                        : "text-gray-400"
+                                        }`}
+                                >
+                                    {item}
+                                </button>
+                            ))}
+                        </div>
 
-                    {/* TAB PROFIL */}
-                    {tab === "profil" && (
-                        <div className="space-y-5">
+                        {/* TAB PROFIL */}
+                        {tab === "profil" && (
+                            <div className="space-y-5">
 
-                            <div>
-                                <label className="text-sm text-gray-400">
-                                    Username
-                                </label>
-                                <input
-                                    name="username"
-                                    value={form.username}
-                                    onChange={handleChange}
-                                    className="w-full bg-[#1f2937] mt-1 px-4 py-3 rounded-lg"
-                                />
-                            </div>
+                                <div>
+                                    <label className="text-sm text-gray-400">
+                                        Username
+                                    </label>
+                                    <input
+                                        name="username"
+                                        value={form.username}
+                                        onChange={handleChange}
+                                        className="w-full bg-[#1f2937] mt-1 px-4 py-3 rounded-lg"
+                                    />
+                                </div>
 
-                            <div>
-                                <label className="text-sm text-gray-400">
-                                    Nama Lengkap
-                                </label>
-                                <input
-                                    name="name"
-                                    value={form.name}
-                                    onChange={handleChange}
-                                    className="w-full bg-[#1f2937] mt-1 px-4 py-3 rounded-lg"
-                                />
-                            </div>
+                                <div>
+                                    <label className="text-sm text-gray-400">
+                                        Nama Lengkap
+                                    </label>
+                                    <input
+                                        name="name"
+                                        value={form.name}
+                                        onChange={handleChange}
+                                        className="w-full bg-[#1f2937] mt-1 px-4 py-3 rounded-lg"
+                                    />
+                                </div>
 
-                            <div>
-                                <label className="text-sm text-gray-400">
-                                    Email
-                                </label>
-                                <input
-                                    name="email"
-                                    value={form.email}
-                                    onChange={handleChange}
-                                    className="w-full bg-[#1f2937] mt-1 px-4 py-3 rounded-lg"
-                                />
-                            </div>
+                                <div>
+                                    <label className="text-sm text-gray-400">
+                                        Email
+                                    </label>
+                                    <input
+                                        name="email"
+                                        value={form.email}
+                                        onChange={handleChange}
+                                        className="w-full bg-[#1f2937] mt-1 px-4 py-3 rounded-lg"
+                                    />
+                                </div>
 
-                            <div>
-                                <label className="text-sm text-gray-400">
-                                    No WhatsApp
-                                </label>
-                                <input
-                                    name="phone"
-                                    value={form.phone}
-                                    onChange={handleChange}
-                                    className="w-full bg-[#1f2937] mt-1 px-4 py-3 rounded-lg"
-                                />
-                            </div>
+                                <div>
+                                    <label className="text-sm text-gray-400">
+                                        No WhatsApp
+                                    </label>
+                                    <input
+                                        name="phone"
+                                        value={form.phone}
+                                        onChange={handleChange}
+                                        className="w-full bg-[#1f2937] mt-1 px-4 py-3 rounded-lg"
+                                    />
+                                </div>
 
-                            <button
-                                onClick={handleSave}
-                                className="bg-blue-600 hover:bg-blue-700 
+                                <button
+                                    onClick={handleSave}
+                                    className="bg-blue-600 hover:bg-blue-700 
                                            transition px-6 py-3 
                                            rounded-lg w-full font-medium"
-                            >
-                                Simpan Perubahan
-                            </button>
-                        </div>
-                    )}
+                                >
+                                    Simpan Perubahan
+                                </button>
+                            </div>
+                        )}
 
-                    {tab === "keamanan" && (
-                        <KeamananTab user={user} setUser={setUser} />
-                    )}
+                        {tab === "keamanan" && (
+                            <KeamananTab user={user} setUser={setUser} />
+                        )}
 
-                    {tab === "password" && (
-                        <PasswordTab user={user} setUser={setUser} />
-                    )}
+                        {tab === "password" && (
+                            <PasswordTab user={user} setUser={setUser} />
+                        )}
 
-                    {tab === "afiliasi" && (
-                        <AfiliasiTab user={user} />
-                    )}
+                        {tab === "afiliasi" && (
+                            <AfiliasiTab user={user} />
+                        )}
 
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

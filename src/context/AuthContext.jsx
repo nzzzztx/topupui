@@ -79,12 +79,28 @@ export const AuthProvider = ({ children }) => {
         return { success: true }
     }
 
+    const resetPassword = (email, newPassword) => {
+        const users = JSON.parse(localStorage.getItem("xml_users")) || []
+
+        const userIndex = users.findIndex(u => u.email === email)
+
+        if (userIndex === -1) {
+            return { success: false, message: "Email tidak ditemukan" }
+        }
+
+        users[userIndex].password = newPassword
+
+        localStorage.setItem("xml_users", JSON.stringify(users))
+
+        return { success: true }
+    }
+
     const logout = () => {
         setUser(null)
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, register, logout, setUser }}>
+        <AuthContext.Provider value={{ user, login, register, logout, setUser, resetPassword }}>
             {children}
         </AuthContext.Provider>
     )
