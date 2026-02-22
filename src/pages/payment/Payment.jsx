@@ -6,6 +6,7 @@ export default function Payment() {
     const location = useLocation()
     const navigate = useNavigate()
     const trx = location.state
+    const user = JSON.parse(localStorage.getItem("xml_user"))
 
     const [transaction, setTransaction] = useState(() => {
         if (trx) return trx
@@ -41,8 +42,6 @@ export default function Payment() {
     if (!transaction) return null
 
     const updateStatus = (newStatus) => {
-
-        const user = JSON.parse(localStorage.getItem("xml_user"))
 
         if (user) {
             const data =
@@ -138,7 +137,14 @@ export default function Payment() {
 
                                     <DetailRow label="No. Transaksi" value={transaction.id} />
                                     <DetailRow label="Metode Pembayaran" value={transaction.selectedPayment} />
-                                    <DetailRow label="Produk" value={`Top Up ${transaction.product.name}`} />
+                                    <DetailRow
+                                        label="Produk"
+                                        value={
+                                            transaction.product?.name
+                                                ? `Top Up ${transaction.product.name}`
+                                                : "Top Up Saldo"
+                                        }
+                                    />
 
                                     <DetailRow
                                         label="Total Pembayaran"
@@ -217,12 +223,16 @@ export default function Payment() {
                     </div>
 
                     <div className="flex justify-center">
-                        <button
-                            onClick={() => navigate("/riwayat")}
-                            className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition hover:scale-105"
-                        >
-                            Lihat Riwayat
-                        </button>
+                        {user && (
+                            <div className="flex justify-center">
+                                <button
+                                    onClick={() => navigate("/riwayat")}
+                                    className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition hover:scale-105"
+                                >
+                                    Lihat Riwayat
+                                </button>
+                            </div>
+                        )}
                     </div>
 
                 </div>

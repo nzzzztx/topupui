@@ -43,24 +43,34 @@ export default function Pesanan() {
     };
 
     useEffect(() => {
-        const data =
-            JSON.parse(localStorage.getItem("transactions")) || [];
+        const memberData =
+            JSON.parse(localStorage.getItem("xml_transactions")) || []
 
-        const mapped = data.map((item) => ({
-            date: new Date(item.createdAt).toLocaleDateString("id-ID"),
+        const guestData =
+            JSON.parse(localStorage.getItem("guest_transactions")) || []
+
+        const allData = [...memberData, ...guestData]
+
+        const mapped = allData.map((item) => ({
+            date: item.createdAt
+                ? new Date(item.createdAt).toLocaleDateString("id-ID")
+                : item.date || "-",
             invoice: item.id,
-            product: "Top Up " + item.product.name,
-            price: item.totalPrice,
+            product:
+                item.product?.name
+                    ? "Top Up " + item.product.name
+                    : "Top Up Saldo",
+            price: item.totalPrice || item.amount || 0,
             status:
                 item.status === "success"
                     ? "Sukses"
                     : item.status === "pending"
                         ? "Pending"
                         : "Gagal",
-        }));
+        }))
 
-        setLocalTransactions(mapped);
-    }, []);
+        setLocalTransactions(mapped)
+    }, [])
 
     return (
         <>
