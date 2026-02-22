@@ -73,7 +73,13 @@ export default function Navbar() {
                             onClick={() => navigate("/saldo")}
                             className="flex items-center gap-2 bg-[#1f2937] border border-[#2d3748] px-3 py-2 rounded-lg text-sm transition-all duration-300 hover:border-blue-500 hover:bg-[#1b2432]"
                         >
-                            <span className="text-yellow-400">💰</span>
+                            <span className="text-white-400">
+                                <img
+                                    src="https://cdn-icons-png.flaticon.com/128/2953/2953362.png"
+                                    alt="saldoicon"
+                                    className="w-5 h-5 invert brightness-0"
+                                />
+                            </span>
                             <span className="text-gray-400">Saldo</span>
                             <span className="font-semibold text-white">
                                 Rp {user.saldo?.toLocaleString("id-ID") || 0}
@@ -159,7 +165,11 @@ export default function Navbar() {
                         >
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 bg-blue-600/20 rounded-lg flex items-center justify-center text-lg">
-                                    💰
+                                    <img
+                                        src="https://cdn-icons-png.flaticon.com/128/2953/2953362.png"
+                                        alt="saldoicon"
+                                        className="w-5 h-5 invert brightness-0"
+                                    />
                                 </div>
                                 <div>
                                     <div className="text-gray-400 text-xs">Saldo Saya</div>

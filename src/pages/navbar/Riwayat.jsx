@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Helmet } from "react-helmet";
+import { handlePrintInvoiceRiwayat } from "../../data/invoiceriwayat"
 
 export default function Riwayat() {
     const [transactions, setTransactions] = useState([])
@@ -237,7 +238,7 @@ export default function Riwayat() {
                             <div className="flex justify-end gap-3 mt-8">
 
                                 <button
-                                    onClick={() => navigate(`/invoice/${selected.id}`)}
+                                    onClick={() => handlePrintInvoiceRiwayat(selected)}
                                     className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-sm rounded-lg"
                                 >
                                     Print Invoice

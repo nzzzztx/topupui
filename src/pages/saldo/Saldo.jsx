@@ -73,15 +73,27 @@ export default function Saldo() {
         alert("Top up success")
     }
 
+
     useEffect(() => {
+        if (!user) return
+
         const allTransactions =
             JSON.parse(localStorage.getItem("xml_transactions")) || []
 
-        const myTransactions = allTransactions.filter(
-            (trx) => trx.username === user?.username
-        )
+        const mySaldoTransactions = allTransactions
+            .filter(
+                (trx) =>
+                    trx.username === user.username &&
+                    (
+                        trx.type === "saldo" ||
+                        trx.product?.name === "Top Up Saldo"
+                    )
+            )
+            .sort(
+                (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+            )
 
-        setTransactionList(myTransactions)
+        setTransactionList(mySaldoTransactions)
     }, [user])
 
     return (

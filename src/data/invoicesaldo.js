@@ -2,17 +2,40 @@ import logoIcon from "../assets/img/logo.png";
 
 export const handlePrintInvoiceSaldo = (trx) => {
   const invoiceWindow = window.open("", "_blank");
+
+  if (!invoiceWindow) return;
+
   const statusValue = (trx.status || "").toLowerCase();
+
+  const formattedDate = trx.createdAt
+    ? new Date(trx.createdAt).toLocaleString("id-ID")
+    : "-";
+
+  const totalAmount = trx.totalPrice || 0;
 
   const qrData = `
   Invoice: ${trx.id}
   User: ${trx.username}
-  Tanggal: ${trx.date}
-  Total: Rp ${trx.amount}
+  Tanggal: ${formattedDate}
+  Total: Rp ${totalAmount}
   Status: ${trx.status}
   `;
 
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(qrData)}`;
+
+  const statusBg =
+    statusValue === "success" || statusValue === "berhasil"
+      ? "#d1fae5"
+      : statusValue === "pending"
+      ? "#fef9c3"
+      : "#fee2e2";
+
+  const statusColor =
+    statusValue === "success" || statusValue === "berhasil"
+      ? "#065f46"
+      : statusValue === "pending"
+      ? "#854d0e"
+      : "#991b1b";
 
   invoiceWindow.document.write(`
     <html>
@@ -62,8 +85,6 @@ export const handlePrintInvoiceSaldo = (trx) => {
           }
 
           .status {
-            background: #d1fae5;
-            color: #065f46;
             padding: 6px;
             text-align: center;
             border-radius: 4px;
@@ -92,17 +113,8 @@ export const handlePrintInvoiceSaldo = (trx) => {
             <img class="logo" src="${logoIcon}" />
           </div>
 
-          <div class="center bold">
-            XMLTOPUP
-          </div>
-
-          <div class="center small">
-            Platform Top Up & Saldo Digital
-          </div>
-
-          <div class="center small">
-            www.xmltopup.com
-          </div>
+          <div class="center bold">XMLTOPUP</div>
+          <div class="center small">Platform Top Up & Saldo Digital</div>
 
           <div class="line"></div>
 
@@ -113,7 +125,7 @@ export const handlePrintInvoiceSaldo = (trx) => {
 
           <div class="row">
             <span>Tanggal</span>
-            <span>${trx.date}</span>
+            <span>${formattedDate}</span>
           </div>
 
           <div class="row">
@@ -130,33 +142,16 @@ export const handlePrintInvoiceSaldo = (trx) => {
 
           <div class="row">
             <span>Metode Bayar</span>
-            <span>${trx.method}</span>
+            <span>${trx.method || "-"}</span>
           </div>
 
           <div class="row total">
             <span>Total Bayar</span>
-            <span>Rp ${trx.amount.toLocaleString("id-ID")}</span>
+            <span>Rp ${totalAmount.toLocaleString("id-ID")}</span>
           </div>
 
-          const statusValue = (trx.status || "").toLowerCase();
-
-          <div class="status" style="
-            background: ${
-              statusValue === "success" || statusValue === "berhasil"
-                ? "#d1fae5"
-                : statusValue === "pending"
-                  ? "#fef9c3"
-                  : "#fee2e2"
-            };
-            color: ${
-              statusValue === "success" || statusValue === "berhasil"
-                ? "#065f46"
-                : statusValue === "pending"
-                  ? "#854d0e"
-                  : "#991b1b"
-            };
-          ">
-            ${trx.status.toUpperCase()}
+          <div class="status" style="background:${statusBg};color:${statusColor};">
+            ${(trx.status || "").toUpperCase()}
           </div>
 
           <div class="line"></div>
@@ -166,8 +161,7 @@ export const handlePrintInvoiceSaldo = (trx) => {
           </div>
 
           <div class="footer">
-            Scan QR untuk verifikasi transaksi<br/>
-            Simpan struk ini sebagai bukti pembayaran<br/><br/>
+            Simpan struk ini sebagai bukti pembayaran<br/>
             Terima kasih telah menggunakan XMLTOPUP 🙏
           </div>
 
