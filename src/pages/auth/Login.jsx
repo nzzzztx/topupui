@@ -48,7 +48,7 @@ export default function Login() {
                 <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-8">
                     {message && (
                         <div className="mb-6 bg-blue-600/20 border border-blue-500/40 text-blue-400 text-sm px-4 py-3 rounded-lg text-center">
-                            📩 {message}
+                            {message}
                         </div>
                     )}
 

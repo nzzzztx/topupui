@@ -21,8 +21,6 @@ import ForgotPassword from "../pages/auth/ForgotPassword"
 import Profile from "../pages/auth/Profile"
 import Saldo from "../pages/saldo/Saldo"
 import Payment from "../pages/payment/Payment"
-import InvoiceRiwayat from "../components/invoice/InvoiceRiwayat"
-import InvoiceSaldo from "../components/invoice/InvoiceSaldo"
 
 export default function AppRoute() {
     return (
@@ -39,8 +37,6 @@ export default function AppRoute() {
                 <Route path="/kalkulator" element={<Kalkulator />} />
                 <Route path="/product/:slug" element={<ProductDetail />} />
                 <Route path="/syarat-ketentuan" element={<Ketentuan />} />
-                <Route path="/invoice/:id" element={<InvoiceRiwayat />} />
-                <Route path="/invoice-saldo/:id" element={<InvoiceSaldo />} />
 
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />

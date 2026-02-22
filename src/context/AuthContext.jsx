@@ -22,7 +22,9 @@ export const AuthProvider = ({ children }) => {
         const users = JSON.parse(localStorage.getItem("xml_users")) || []
 
         const foundUser = users.find(
-            (u) => u.username === username && u.password === password
+            (u) =>
+                u.username === username.trim() &&
+                u.password === password.trim()
         )
 
         if (!foundUser) {
@@ -49,14 +51,19 @@ export const AuthProvider = ({ children }) => {
 
         const users = JSON.parse(localStorage.getItem("xml_users")) || []
 
-        const exist = users.find((u) => u.username === data.username)
+        const exist = users.find(u => u.username === data.username.trim())
 
         if (exist) {
             return { success: false, message: "Username sudah terdaftar" }
         }
 
         const newUser = {
-            ...data,
+            username: data.username.trim(),
+            name: data.name.trim(),
+            email: data.email.trim(),
+            phone: data.phone.trim(),
+            password: data.password.trim(),
+            saldo: 0,
             memberType: "Basic",
             affiliateTotal: 0,
             createdAt: new Date().toISOString(),

@@ -6,14 +6,19 @@ export default function Payment() {
     const navigate = useNavigate()
     const trx = location.state
 
-    const [transaction, setTransaction] = useState(trx)
-    const [timeLeft, setTimeLeft] = useState(86400)
+    const [transaction, setTransaction] = useState(() => {
+        if (trx) return trx
 
-    useEffect(() => {
-        if (!trx) {
-            navigate("/")
-        }
-    }, [trx, navigate])
+        const lastLogin =
+            JSON.parse(localStorage.getItem("xml_transactions"))?.[0]
+
+        const lastGuest =
+            JSON.parse(localStorage.getItem("guest_transactions"))?.[0]
+
+        return lastLogin || lastGuest || null
+    })
+
+    const [timeLeft, setTimeLeft] = useState(86400)
 
     useEffect(() => {
         if (!transaction || transaction.status !== "pending") return
@@ -35,16 +40,32 @@ export default function Payment() {
     if (!transaction) return null
 
     const updateStatus = (newStatus) => {
-        const data =
-            JSON.parse(localStorage.getItem("transactions")) || []
 
-        const updated = data.map((t) =>
-            t.id === transaction.id
-                ? { ...t, status: newStatus }
-                : t
-        )
+        const user = JSON.parse(localStorage.getItem("xml_user"))
 
-        localStorage.setItem("transactions", JSON.stringify(updated))
+        if (user) {
+            const data =
+                JSON.parse(localStorage.getItem("xml_transactions")) || []
+
+            const updated = data.map((t) =>
+                t.id === transaction.id
+                    ? { ...t, status: newStatus }
+                    : t
+            )
+
+            localStorage.setItem("xml_transactions", JSON.stringify(updated))
+        } else {
+            const data =
+                JSON.parse(localStorage.getItem("guest_transactions")) || []
+
+            const updated = data.map((t) =>
+                t.id === transaction.id
+                    ? { ...t, status: newStatus }
+                    : t
+            )
+
+            localStorage.setItem("guest_transactions", JSON.stringify(updated))
+        }
 
         setTransaction({ ...transaction, status: newStatus })
     }

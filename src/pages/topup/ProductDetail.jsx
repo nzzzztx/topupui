@@ -32,6 +32,7 @@ export default function ProductDetail() {
     const [selectedPayment, setSelectedPayment] = useState(null)
     const [showConfirm, setShowConfirm] = useState(false)
 
+    const user = JSON.parse(localStorage.getItem("xml_user"))
     const handleBuy = () => {
         if (!isFormComplete) return
         setShowConfirm(true)
@@ -562,6 +563,9 @@ export default function ProductDetail() {
 
                             <button
                                 onClick={() => {
+
+                                    const user = JSON.parse(localStorage.getItem("xml_user"))
+
                                     const transaction = {
                                         id: "TRX-" + Date.now(),
                                         product,
@@ -569,18 +573,32 @@ export default function ProductDetail() {
                                         formData,
                                         selectedPayment,
                                         totalPrice,
-                                        // status: "success",
                                         status: "pending",
-                                        createdAt: new Date().toISOString()
+                                        createdAt: new Date().toISOString(),
+                                        userId: user?.id || null
                                     }
 
-                                    const oldData =
-                                        JSON.parse(localStorage.getItem("transactions")) || []
+                                    //  login
+                                    if (user) {
+                                        const oldData =
+                                            JSON.parse(localStorage.getItem("xml_transactions")) || []
 
-                                    localStorage.setItem(
-                                        "transactions",
-                                        JSON.stringify([transaction, ...oldData])
-                                    )
+                                        localStorage.setItem(
+                                            "xml_transactions",
+                                            JSON.stringify([transaction, ...oldData])
+                                        )
+                                    }
+
+                                    //  guest
+                                    else {
+                                        const oldGuest =
+                                            JSON.parse(localStorage.getItem("guest_transactions")) || []
+
+                                        localStorage.setItem(
+                                            "guest_transactions",
+                                            JSON.stringify([transaction, ...oldGuest])
+                                        )
+                                    }
 
                                     setShowConfirm(false)
 

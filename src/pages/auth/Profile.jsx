@@ -1,17 +1,27 @@
 import { useAuth } from "../../context/AuthContext"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 export default function Profile() {
     const { user, setUser } = useAuth()
     const [tab, setTab] = useState("profil")
-
     const [form, setForm] = useState({
-        username: user?.username || "",
-        name: user?.name || "",
-        email: user?.email || "",
-        phone: user?.phone || "",
+        username: "",
+        name: "",
+        email: "",
+        phone: "",
     })
+
+    useEffect(() => {
+        if (user) {
+            setForm({
+                username: user.username,
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+            })
+        }
+    }, [user])
 
     if (!user) return null
 
@@ -32,14 +42,18 @@ export default function Profile() {
         const users = JSON.parse(localStorage.getItem("xml_users")) || []
 
         const updatedUsers = users.map(u =>
-            u.username === user.username
+            u.email === user.email
                 ? { ...u, ...form }
                 : u
         )
 
         localStorage.setItem("xml_users", JSON.stringify(updatedUsers))
 
-        setUser({ ...user, ...form })
+        const updatedUser = updatedUsers.find(
+            u => u.email === user.email
+        )
+
+        setUser(updatedUser)
 
         alert("Profil berhasil diperbarui")
     }
@@ -217,34 +231,36 @@ function KeamananTab({ user, setUser }) {
 
     const handleSave = () => {
 
-        if (newPin.length < 6) {
-            alert("PIN minimal 6 angka")
+        const users = JSON.parse(localStorage.getItem("xml_users")) || []
+
+        const currentUser = users.find(u => u.email === user.email)
+
+        if (!currentUser) {
+            alert("User tidak ditemukan")
             return
         }
 
-        if (!/^\d+$/.test(newPin)) {
-            alert("PIN hanya boleh angka")
-            return
-        }
-
-        if (password !== user.password) {
+        if (password.trim() !== currentUser.password) {
             alert("Password salah")
             return
         }
 
-        if (hasPin && oldPin !== user.pin) {
+        if (currentUser.pin && oldPin !== currentUser.pin) {
             alert("PIN lama salah")
             return
         }
 
-        const users = JSON.parse(localStorage.getItem("xml_users")) || []
+        if (newPin.length < 6 || !/^\d+$/.test(newPin)) {
+            alert("PIN minimal 6 angka dan hanya angka")
+            return
+        }
 
         const updatedUsers = users.map(u =>
-            u.username === user.username
+            u.email === user.email
                 ? {
                     ...u,
                     pin: newPin,
-                    pinAttempts: null,
+                    pinAttempts: 0,
                     pinBlockedUntil: null
                 }
                 : u
@@ -252,9 +268,13 @@ function KeamananTab({ user, setUser }) {
 
         localStorage.setItem("xml_users", JSON.stringify(updatedUsers))
 
-        setUser({ ...user, pin: newPin })
+        const updatedUser = updatedUsers.find(
+            u => u.email === user.email
+        )
 
-        alert(hasPin ? "PIN berhasil diubah" : "PIN berhasil dibuat")
+        setUser(updatedUser)
+
+        alert(currentUser.pin ? "PIN berhasil diubah" : "PIN berhasil dibuat")
 
         setOldPin("")
         setNewPin("")
@@ -263,24 +283,31 @@ function KeamananTab({ user, setUser }) {
 
     const handleReset = () => {
 
-        if (password !== user.password) {
+        const users = JSON.parse(localStorage.getItem("xml_users")) || []
+
+        const currentUser = users.find(u => u.email === user.email)
+
+        if (password !== currentUser.password) {
             alert("Password salah")
             return
         }
 
-        const users = JSON.parse(localStorage.getItem("xml_users")) || []
-
         const updatedUsers = users.map(u =>
-            u.username === user.username
-                ? { ...u, pin: null }
+            u.email === user.email
+                ? {
+                    ...u,
+                    pin: null,
+                    pinAttempts: 0,
+                    pinBlockedUntil: null
+                }
                 : u
         )
 
         localStorage.setItem("xml_users", JSON.stringify(updatedUsers))
 
         setUser({
-            ...user,
-            pin: newPin,
+            ...currentUser,
+            pin: null,
             pinAttempts: 0,
             pinBlockedUntil: null
         })
@@ -372,7 +399,7 @@ function PasswordTab({ user, setUser }) {
 
     const handleSave = () => {
 
-        if (oldPassword !== user.password) {
+        if (oldPassword.trim() !== user.password) {
             alert("Password lama salah")
             return
         }
@@ -390,7 +417,7 @@ function PasswordTab({ user, setUser }) {
         const users = JSON.parse(localStorage.getItem("xml_users")) || []
 
         const updatedUsers = users.map(u =>
-            u.username === user.username
+            u.email === user.email
                 ? { ...u, password: newPassword }
                 : u
         )

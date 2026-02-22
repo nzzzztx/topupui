@@ -100,7 +100,7 @@ export default function Navbar() {
                         </button>
                     )}
 
-                    {memberOpen && (
+                    {user && memberOpen && (
                         <div className="absolute right-0 top-14 w-44 bg-[#111827] border border-[#2d3748] rounded-xl shadow-2xl overflow-hidden animate-fadeIn">
                             <button
                                 onClick={() => {

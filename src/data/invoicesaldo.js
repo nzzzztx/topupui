@@ -138,24 +138,26 @@ export const handlePrintInvoiceSaldo = (trx) => {
             <span>Rp ${trx.amount.toLocaleString("id-ID")}</span>
           </div>
 
+          const statusValue = (trx.status || "").toLowerCase();
+
           <div class="status" style="
-          background: ${
-            statusValue === "success" || statusValue === "berhasil"
-              ? "#d1fae5"
-              : statusValue === "pending"
-                ? "#fef9c3"
-                : "#fee2e2"
-          };
-          color: ${
-            statusValue === "success" || statusValue === "berhasil"
-              ? "#065f46"
-              : statusValue === "pending"
-                ? "#854d0e"
-                : "#991b1b"
-          };
-        ">
-          ${trx.status.toUpperCase()}
-        </div>
+            background: ${
+              statusValue === "success" || statusValue === "berhasil"
+                ? "#d1fae5"
+                : statusValue === "pending"
+                  ? "#fef9c3"
+                  : "#fee2e2"
+            };
+            color: ${
+              statusValue === "success" || statusValue === "berhasil"
+                ? "#065f46"
+                : statusValue === "pending"
+                  ? "#854d0e"
+                  : "#991b1b"
+            };
+          ">
+            ${trx.status.toUpperCase()}
+          </div>
 
           <div class="line"></div>
 

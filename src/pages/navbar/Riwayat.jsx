@@ -7,9 +7,24 @@ export default function Riwayat() {
     const navigate = useNavigate()
 
     const loadData = () => {
-        const data =
-            JSON.parse(localStorage.getItem("transactions")) || []
-        setTransactions(data)
+        const user = JSON.parse(localStorage.getItem("xml_user"))
+
+        let data = []
+
+        if (user) {
+            data =
+                JSON.parse(localStorage.getItem("xml_transactions")) || []
+        } else {
+            data =
+                JSON.parse(localStorage.getItem("guest_transactions")) || []
+        }
+
+        setTransactions(
+            data.sort(
+                (a, b) =>
+                    new Date(b.createdAt) - new Date(a.createdAt)
+            )
+        )
     }
 
     useEffect(() => {

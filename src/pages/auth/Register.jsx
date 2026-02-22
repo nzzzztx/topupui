@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext"
 
 export default function Register() {
     const [showPass, setShowPass] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
+    const { register } = useAuth()
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -24,27 +26,18 @@ export default function Register() {
             return
         }
 
-        const users = JSON.parse(localStorage.getItem("xml_users")) || []
-
-        const exist = users.find(u => u.username === username)
-
-        if (exist) {
-            alert("Username sudah terdaftar")
-            return
-        }
-
-        const newUser = {
+        const result = register({
             username,
             name,
             email,
             phone,
-            password,
-            saldo: 0,
-            createdAt: new Date().toISOString()
-        }
+            password
+        })
 
-        users.push(newUser)
-        localStorage.setItem("xml_users", JSON.stringify(users))
+        if (!result.success) {
+            alert(result.message)
+            return
+        }
 
         setSuccess(true)
 
