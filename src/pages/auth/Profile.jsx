@@ -536,11 +536,23 @@ function PasswordTab({ user, setUser }) {
 // SET AFILIASI
 function AfiliasiTab({ user }) {
 
-    const affiliateLink = `${window.location.origin}/register?ref=${user.username}`
+    const affiliateLink = user
+        ? `${window.location.origin}/register?ref=${user.username}`
+        : ""
 
     const handleCopy = () => {
-        navigator.clipboard.writeText(affiliateLink)
-        alert("Link berhasil disalin")
+        try {
+            navigator.clipboard.writeText(affiliateLink)
+            alert("Link berhasil disalin")
+        } catch {
+            const textarea = document.createElement("textarea")
+            textarea.value = affiliateLink
+            document.body.appendChild(textarea)
+            textarea.select()
+            document.execCommand("copy")
+            document.body.removeChild(textarea)
+            alert("Link berhasil disalin")
+        }
     }
 
     return (
