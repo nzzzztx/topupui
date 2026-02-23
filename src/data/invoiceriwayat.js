@@ -1,4 +1,4 @@
-import logoIcon from "../assets/img/logo.png";
+import logoIcon from "../../public/logofix.png";
 
 export const handlePrintInvoiceRiwayat = (trx) => {
   if (!trx) return;
