@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { pesananData } from "../../data/pesanan";
 import { Helmet } from "react-helmet";
+import { getSecure } from "../../utils/secureStorage"
 
 export default function Pesanan() {
     const [search, setSearch] = useState("");
@@ -20,11 +21,15 @@ export default function Pesanan() {
     }, [localTransactions]);
 
     const filteredData = useMemo(() => {
-        return combinedData.filter(
-            (item) =>
-                item.invoice.toLowerCase().includes(search.toLowerCase()) ||
-                item.product.toLowerCase().includes(search.toLowerCase())
-        );
+        return combinedData.filter((item) => {
+            const invoice = item.invoice?.toLowerCase() || "";
+            const product = item.product?.toLowerCase() || "";
+
+            return (
+                invoice.includes(search.toLowerCase()) ||
+                product.includes(search.toLowerCase())
+            );
+        });
     }, [search, combinedData]);
 
     const getStatusColor = (status) => {
@@ -43,17 +48,21 @@ export default function Pesanan() {
     };
 
     useEffect(() => {
-        const memberData =
-            JSON.parse(localStorage.getItem("xml_transactions")) || []
-
-        const guestData =
-            JSON.parse(localStorage.getItem("guest_transactions")) || []
+        const memberData = getSecure("xml_transactions") || []
+        const guestData = getSecure("guest_transactions") || []
 
         const allData = [...memberData, ...guestData]
 
         const mapped = allData.map((item) => ({
             date: item.createdAt
-                ? new Date(item.createdAt).toLocaleDateString("id-ID")
+                ? new Date(item.createdAt).toLocaleString("id-ID", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                })
                 : item.date || "-",
             invoice: item.id,
             product:

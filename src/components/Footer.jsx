@@ -45,18 +45,60 @@ export default function Footer() {
                             panel PPOB termurah, dan voucher digital lengkap di Indonesia.
                         </p>
 
-                        <div className="flex gap-4">
-                            <div className="bg-[#111827] px-4 py-2 rounded-lg border border-[#1f2937] hover:border-blue-500 transition cursor-pointer">
-                                <div className="text-white text-sm font-semibold">
-                                    App Store
+                        <div className="flex gap-4 flex-wrap">
+                            {/* App Store */}
+                            <a
+                                href="https://www.apple.com/app-store/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-3
+                                bg-[#111827] px-5 py-3 rounded-lg
+                                border border-[#1f2937]
+                                hover:border-blue-500 hover:bg-[#1a2436]
+                                transition-all duration-200
+                                active:scale-95"
+                            >
+                                <img
+                                    src="https://cdn.simpleicons.org/apple/ffffff"
+                                    alt="Apple"
+                                    className="w-5 h-5"
+                                />
+                                <div className="text-left leading-tight">
+                                    <p className="text-[10px] text-gray-400">
+                                        Download on the
+                                    </p>
+                                    <p className="text-white text-sm font-semibold">
+                                        App Store
+                                    </p>
                                 </div>
-                            </div>
+                            </a>
 
-                            <div className="bg-[#111827] px-4 py-2 rounded-lg border border-[#1f2937] hover:border-blue-500 transition cursor-pointer">
-                                <div className="text-white text-sm font-semibold">
-                                    Google Play
+                            {/* Google Play */}
+                            <a
+                                href="https://play.google.com/store"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-3
+                                bg-[#111827] px-5 py-3 rounded-lg
+                                border border-[#1f2937]
+                                hover:border-blue-500 hover:bg-[#1a2436]
+                                transition-all duration-200
+                                active:scale-95"
+                            >
+                                <img
+                                    src="https://cdn.simpleicons.org/googleplay/ffffff"
+                                    alt="Google Play"
+                                    className="w-5 h-5"
+                                />
+                                <div className="text-left leading-tight">
+                                    <p className="text-[10px] text-gray-400">
+                                        Get it on
+                                    </p>
+                                    <p className="text-white text-sm font-semibold">
+                                        Google Play
+                                    </p>
                                 </div>
-                            </div>
+                            </a>
                         </div>
 
                         <div className="space-y-1 text-sm">

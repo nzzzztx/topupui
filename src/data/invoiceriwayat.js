@@ -1,4 +1,3 @@
-import logoIcon from "../../public/logofix.png";
 
 export const handlePrintInvoiceRiwayat = (trx) => {
   if (!trx) return;
@@ -28,8 +27,11 @@ export const handlePrintInvoiceRiwayat = (trx) => {
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(qrData)}`;
 
   invoiceWindow.document.write(`
+    <!DOCTYPE html>
     <html>
       <head>
+      <meta charset="UTF-8" />
+      <base href="${window.location.origin}/">
         <title>Struk ${trx.id}</title>
         <style>
           body {
@@ -102,7 +104,7 @@ export const handlePrintInvoiceRiwayat = (trx) => {
         <div class="receipt">
 
           <div class="center">
-            <img class="logo" src="${logoIcon}" />
+            <img class="logo" src="logofix.png" />
           </div>
 
           <div class="center bold">

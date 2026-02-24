@@ -1,26 +1,23 @@
 import { useLocation, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { Helmet } from "react-helmet";
+import { getSecure, setSecure } from "../../utils/secureStorage"
 
 export default function Payment() {
     const location = useLocation()
     const navigate = useNavigate()
     const trx = location.state
-    const user = JSON.parse(localStorage.getItem("xml_user"))
+    const user = getSecure("xml_user")
 
-    const [transaction, setTransaction] = useState(() => {
-        if (trx) return trx
-
-        const lastLogin =
-            JSON.parse(localStorage.getItem("xml_transactions"))?.[0]
-
-        const lastGuest =
-            JSON.parse(localStorage.getItem("guest_transactions"))?.[0]
-
-        return lastLogin || lastGuest || null
-    })
+    const [transaction, setTransaction] = useState(trx || null)
 
     const [timeLeft, setTimeLeft] = useState(86400)
+
+    useEffect(() => {
+        if (!trx) {
+            navigate("/")
+        }
+    }, [trx, navigate])
 
     useEffect(() => {
         if (!transaction || transaction.status !== "pending") return
@@ -44,8 +41,7 @@ export default function Payment() {
     const updateStatus = (newStatus) => {
 
         if (user) {
-            const data =
-                JSON.parse(localStorage.getItem("xml_transactions")) || []
+            const data = getSecure("xml_transactions") || []
 
             const updated = data.map((t) =>
                 t.id === transaction.id
@@ -53,10 +49,9 @@ export default function Payment() {
                     : t
             )
 
-            localStorage.setItem("xml_transactions", JSON.stringify(updated))
+            setSecure("xml_transactions", updated)
         } else {
-            const data =
-                JSON.parse(localStorage.getItem("guest_transactions")) || []
+            const data = getSecure("guest_transactions") || []
 
             const updated = data.map((t) =>
                 t.id === transaction.id
@@ -64,13 +59,53 @@ export default function Payment() {
                     : t
             )
 
-            localStorage.setItem("guest_transactions", JSON.stringify(updated))
+            setSecure("guest_transactions", updated)
         }
 
-        setTransaction({ ...transaction, status: newStatus })
+        setTransaction(prev => ({
+            ...prev,
+            status: newStatus
+        }))
     }
 
     const handleConfirmPayment = () => {
+
+        if (!transaction) return
+
+        if (transaction.status !== "pending") return
+
+        if (transaction.selectedPayment === "SALDO") {
+
+            if (!user) {
+                alert("Harus login untuk bayar pakai saldo")
+                return
+            }
+
+            const users = getSecure("xml_users") || []
+            const currentUser = users.find(u => u.username === user.username)
+
+            if (!currentUser) return
+
+            if ((currentUser.saldo || 0) < transaction.totalPrice) {
+                alert("Saldo tidak cukup")
+                return
+            }
+
+            const updatedUsers = users.map(u =>
+                u.username === user.username
+                    ? { ...u, saldo: (u.saldo || 0) - transaction.totalPrice }
+                    : u
+            )
+
+            setSecure("xml_users", updatedUsers)
+
+            const updatedUser = updatedUsers.find(
+                u => u.username === user.username
+            )
+
+            setSecure("xml_user", updatedUser)
+        }
+
         updateStatus("success")
     }
 
@@ -223,15 +258,15 @@ export default function Payment() {
                     </div>
 
                     <div className="flex justify-center">
-                        {user && (
-                            <div className="flex justify-center">
-                                <button
-                                    onClick={() => navigate("/riwayat")}
-                                    className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition hover:scale-105"
-                                >
-                                    Lihat Riwayat
-                                </button>
-                            </div>
+                        {transaction.status === "success" && (
+                            <button
+                                onClick={() =>
+                                    navigate(user ? "/riwayat" : "/pesanan")
+                                }
+                                className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition hover:scale-105"
+                            >
+                                {user ? "Lihat Riwayat" : "Lihat Pesanan"}
+                            </button>
                         )}
                     </div>
 

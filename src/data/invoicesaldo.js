@@ -1,4 +1,3 @@
-import logoIcon from "../../public/logofix.png";
 
 export const handlePrintInvoiceSaldo = (trx) => {
   const invoiceWindow = window.open("", "_blank");
@@ -38,8 +37,11 @@ export const handlePrintInvoiceSaldo = (trx) => {
       : "#991b1b";
 
   invoiceWindow.document.write(`
+    <!DOCTYPE html>
     <html>
       <head>
+      <meta charset="UTF-8" />
+      <base href="${window.location.origin}/">
         <title>Struk Saldo ${trx.id}</title>
         <style>
           body {
@@ -110,7 +112,7 @@ export const handlePrintInvoiceSaldo = (trx) => {
         <div class="receipt">
 
           <div class="center">
-            <img class="logo" src="${logoIcon}" />
+            <img class="logo" src="logofix.png" />
           </div>
 
           <div class="center bold">XMLTOPUP</div>

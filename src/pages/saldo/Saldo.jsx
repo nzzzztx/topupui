@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useAuth } from "../../context/AuthContext"
 import { Helmet } from "react-helmet";
 import { handlePrintInvoiceSaldo } from "../../data/invoicesaldo"
+import { getSecure, setSecure } from "../../utils/secureStorage"
 
 // IMPORT LOGO
 import bca from "../../assets/img/BCAA.png"
@@ -31,15 +32,19 @@ export default function Saldo() {
     const [transactionList, setTransactionList] = useState([])
 
     const handleTopUp = () => {
+        if (!amount || isNaN(amount) || Number(amount) <= 0) {
+            alert("Nominal tidak valid")
+            return
+        }
 
         if (!selectedPayment) {
             alert("Pilih metode pembayaran dulu")
             return
         }
 
-        const newSaldo = (user.saldo || 0) + Number(amount)
-
-        const users = JSON.parse(localStorage.getItem("xml_users")) || []
+        const topupAmount = parseInt(amount, 10)
+        const newSaldo = (user.saldo || 0) + topupAmount
+        const users = getSecure("xml_users") || []
 
         const updatedUsers = users.map(u =>
             u.username === user.username
@@ -47,9 +52,9 @@ export default function Saldo() {
                 : u
         )
 
-        localStorage.setItem("xml_users", JSON.stringify(updatedUsers))
+        setSecure("xml_users", updatedUsers)
 
-        const transactions = JSON.parse(localStorage.getItem("xml_transactions")) || []
+        const transactions = getSecure("xml_transactions") || []
 
         const newTransaction = {
             id: `TRX-${Date.now()}`,
@@ -62,15 +67,20 @@ export default function Saldo() {
             status: "success"
         }
 
-        localStorage.setItem(
+        setSecure(
             "xml_transactions",
-            JSON.stringify([newTransaction, ...transactions])
+            [newTransaction, ...transactions]
         )
 
-        setUser({ ...user, saldo: newSaldo })
+        const updatedUser = updatedUsers.find(u => u.username === user.username)
+        setUser(updatedUser)
 
         setShowModal(false)
         alert("Top up success")
+
+        setAmount("0")
+        setSelectedPayment(null)
+        setOpenMethod(null)
     }
 
 
@@ -78,7 +88,7 @@ export default function Saldo() {
         if (!user) return
 
         const allTransactions =
-            JSON.parse(localStorage.getItem("xml_transactions")) || []
+            getSecure("xml_transactions") || []
 
         const mySaldoTransactions = allTransactions
             .filter(

@@ -1,17 +1,17 @@
 import { createContext, useContext, useEffect, useState } from "react"
+import { setSecure, getSecure, hashPassword } from "../utils/secureStorage"
 
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(() => {
-        const saved = localStorage.getItem("xml_user")
-        return saved ? JSON.parse(saved) : null
+        return getSecure("xml_user")
     })
 
     useEffect(() => {
         if (user) {
-            localStorage.setItem("xml_user", JSON.stringify(user))
+            setSecure("xml_user", user)
         } else {
             localStorage.removeItem("xml_user")
         }
@@ -19,12 +19,12 @@ export const AuthProvider = ({ children }) => {
 
     const login = (username, password) => {
 
-        const users = JSON.parse(localStorage.getItem("xml_users")) || []
+        const users = getSecure("xml_users") || []
 
         const foundUser = users.find(
             (u) =>
                 u.username === username.trim() &&
-                u.password === password.trim()
+                u.password === hashPassword(password.trim())
         )
 
         if (!foundUser) {
@@ -40,16 +40,15 @@ export const AuthProvider = ({ children }) => {
             u.username === username ? updatedUser : u
         )
 
-        localStorage.setItem("xml_users", JSON.stringify(updatedUsers))
-
+        setSecure("xml_users", updatedUsers)
         setUser(updatedUser)
 
-        return { success: true, user: updatedUser }
+        return { success: true }
     }
 
     const register = (data) => {
 
-        const users = JSON.parse(localStorage.getItem("xml_users")) || []
+        const users = getSecure("xml_users") || []
 
         const exist = users.find(u => u.username === data.username.trim())
 
@@ -62,7 +61,7 @@ export const AuthProvider = ({ children }) => {
             name: data.name.trim(),
             email: data.email.trim(),
             phone: data.phone.trim(),
-            password: data.password.trim(),
+            password: hashPassword(data.password.trim()),
             saldo: 0,
             memberType: "Basic",
             affiliateTotal: 0,
@@ -74,13 +73,14 @@ export const AuthProvider = ({ children }) => {
         }
 
         users.push(newUser)
-        localStorage.setItem("xml_users", JSON.stringify(users))
+        setSecure("xml_users", users)
 
         return { success: true }
     }
 
     const resetPassword = (email, newPassword) => {
-        const users = JSON.parse(localStorage.getItem("xml_users")) || []
+
+        const users = getSecure("xml_users") || []
 
         const userIndex = users.findIndex(u => u.email === email)
 
@@ -88,15 +88,16 @@ export const AuthProvider = ({ children }) => {
             return { success: false, message: "Email tidak ditemukan" }
         }
 
-        users[userIndex].password = newPassword
+        users[userIndex].password = hashPassword(newPassword.trim())
 
-        localStorage.setItem("xml_users", JSON.stringify(users))
+        setSecure("xml_users", users)
 
         return { success: true }
     }
 
     const logout = () => {
         setUser(null)
+        localStorage.removeItem("xml_user")
     }
 
     return (

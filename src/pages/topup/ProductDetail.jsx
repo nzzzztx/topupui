@@ -2,6 +2,7 @@ import { useParams, Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { products } from "../../data/product"
 import { Helmet } from "react-helmet";
+import { getSecure, setSecure } from "../../utils/secureStorage"
 
 // IMPORT LOGO
 import bca from "../../assets/img/BCAA.png"
@@ -33,7 +34,6 @@ export default function ProductDetail() {
     const [selectedPayment, setSelectedPayment] = useState(null)
     const [showConfirm, setShowConfirm] = useState(false)
 
-    const user = JSON.parse(localStorage.getItem("xml_user"))
     const handleBuy = () => {
         if (!isFormComplete) return
         setShowConfirm(true)
@@ -54,6 +54,9 @@ export default function ProductDetail() {
     }
 
     const payments = {
+        saldo: [
+            { name: "SALDO", logo: "https://cdn-icons-png.flaticon.com/128/1371/1371962.png" }
+        ],
         bank: [
             { name: "BCA", logo: bca },
             { name: "BRI", logo: bri },
@@ -580,7 +583,7 @@ export default function ProductDetail() {
                                 <button
                                     onClick={() => {
 
-                                        const user = JSON.parse(localStorage.getItem("xml_user"))
+                                        const user = getSecure("xml_user")
 
                                         const transaction = {
                                             id: "TRX-" + Date.now(),
@@ -591,28 +594,26 @@ export default function ProductDetail() {
                                             totalPrice,
                                             status: "pending",
                                             createdAt: new Date().toISOString(),
-                                            userId: user?.id || null
+                                            username: user?.username || null
                                         }
 
                                         //  login
                                         if (user) {
-                                            const oldData =
-                                                JSON.parse(localStorage.getItem("xml_transactions")) || []
+                                            const oldData = getSecure("xml_transactions") || []
 
-                                            localStorage.setItem(
+                                            setSecure(
                                                 "xml_transactions",
-                                                JSON.stringify([transaction, ...oldData])
+                                                [transaction, ...oldData]
                                             )
                                         }
 
                                         //  guest
                                         else {
-                                            const oldGuest =
-                                                JSON.parse(localStorage.getItem("guest_transactions")) || []
+                                            const oldGuest = getSecure("guest_transactions") || []
 
-                                            localStorage.setItem(
+                                            setSecure(
                                                 "guest_transactions",
-                                                JSON.stringify([transaction, ...oldGuest])
+                                                [transaction, ...oldGuest]
                                             )
                                         }
 

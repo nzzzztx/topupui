@@ -2,6 +2,7 @@ import { useAuth } from "../../context/AuthContext"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Helmet } from "react-helmet"
+import { getSecure, setSecure, hashPassword } from "../../utils/secureStorage"
 
 export default function Profile() {
     const { user, setUser } = useAuth()
@@ -40,18 +41,25 @@ export default function Profile() {
     }
 
     const handleSave = () => {
-        const users = JSON.parse(localStorage.getItem("xml_users")) || []
+
+        const users = getSecure("xml_users") || []
 
         const updatedUsers = users.map(u =>
-            u.email === user.email
-                ? { ...u, ...form }
+            u.username === user.username
+                ? {
+                    ...u,
+                    username: form.username.trim(),
+                    name: form.name.trim(),
+                    email: form.email.trim(),
+                    phone: form.phone.trim()
+                }
                 : u
         )
 
-        localStorage.setItem("xml_users", JSON.stringify(updatedUsers))
+        setSecure("xml_users", updatedUsers)
 
         const updatedUser = updatedUsers.find(
-            u => u.email === user.email
+            u => u.username === user.username
         )
 
         setUser(updatedUser)
@@ -248,7 +256,7 @@ function KeamananTab({ user, setUser }) {
 
     const handleSave = () => {
 
-        const users = JSON.parse(localStorage.getItem("xml_users")) || []
+        const users = getSecure("xml_users") || []
 
         const currentUser = users.find(u => u.email === user.email)
 
@@ -257,12 +265,15 @@ function KeamananTab({ user, setUser }) {
             return
         }
 
-        if (password.trim() !== currentUser.password) {
+        if (hashPassword(password.trim()) !== currentUser.password) {
             alert("Password salah")
             return
         }
 
-        if (currentUser.pin && oldPin !== currentUser.pin) {
+        if (
+            currentUser.pin &&
+            hashPassword(oldPin) !== currentUser.pin
+        ) {
             alert("PIN lama salah")
             return
         }
@@ -276,14 +287,14 @@ function KeamananTab({ user, setUser }) {
             u.email === user.email
                 ? {
                     ...u,
-                    pin: newPin,
+                    pin: hashPassword(newPin),
                     pinAttempts: 0,
                     pinBlockedUntil: null
                 }
                 : u
         )
 
-        localStorage.setItem("xml_users", JSON.stringify(updatedUsers))
+        setSecure("xml_users", updatedUsers)
 
         const updatedUser = updatedUsers.find(
             u => u.email === user.email
@@ -300,11 +311,16 @@ function KeamananTab({ user, setUser }) {
 
     const handleReset = () => {
 
-        const users = JSON.parse(localStorage.getItem("xml_users")) || []
+        const users = getSecure("xml_users") || []
 
         const currentUser = users.find(u => u.email === user.email)
 
-        if (password !== currentUser.password) {
+        if (!currentUser) {
+            alert("User tidak ditemukan")
+            return
+        }
+
+        if (hashPassword(password.trim()) !== currentUser.password) {
             alert("Password salah")
             return
         }
@@ -320,14 +336,13 @@ function KeamananTab({ user, setUser }) {
                 : u
         )
 
-        localStorage.setItem("xml_users", JSON.stringify(updatedUsers))
+        setSecure("xml_users", updatedUsers)
 
-        setUser({
-            ...currentUser,
-            pin: null,
-            pinAttempts: 0,
-            pinBlockedUntil: null
-        })
+        const updatedUser = updatedUsers.find(
+            u => u.email === user.email
+        )
+
+        setUser(updatedUser)
 
         alert("PIN berhasil direset")
 
@@ -416,7 +431,7 @@ function PasswordTab({ user, setUser }) {
 
     const handleSave = () => {
 
-        if (oldPassword.trim() !== user.password) {
+        if (hashPassword(oldPassword.trim()) !== user.password) {
             alert("Password lama salah")
             return
         }
@@ -431,15 +446,15 @@ function PasswordTab({ user, setUser }) {
             return
         }
 
-        const users = JSON.parse(localStorage.getItem("xml_users")) || []
+        const users = getSecure("xml_users") || []
 
         const updatedUsers = users.map(u =>
             u.email === user.email
-                ? { ...u, password: newPassword }
+                ? { ...u, password: hashPassword(newPassword.trim()) }
                 : u
         )
 
-        localStorage.setItem("xml_users", JSON.stringify(updatedUsers))
+        setSecure("xml_users", updatedUsers)
 
         alert("Password berhasil diganti. Silakan login ulang.")
 
