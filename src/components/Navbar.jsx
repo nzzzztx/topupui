@@ -2,8 +2,6 @@ import { NavLink, useNavigate } from "react-router-dom"
 import { useState, useRef, useEffect } from "react"
 import { useAuth } from "../context/AuthContext"
 
-import logoTest from "../assets/img/testup1.png"
-
 export default function Navbar() {
     const [open, setOpen] = useState(false)
     const [memberOpen, setMemberOpen] = useState(false)
@@ -34,12 +32,12 @@ export default function Navbar() {
             <div className="flex items-center justify-between">
 
                 <NavLink to="/" className="flex items-center h-full">
-                    <img
+                    {/* <img
                         src={logoTest}
                         alt="XMLTOPUP Logo"
                         className="h-12 md:h-18 w-auto object-contain"
-                    />
-                    {/* <span className="text-white text-xl font-bold">XMLGAME</span> */}
+                    /> */}
+                    <span className="text-white text-xl font-bold">XMLGAME</span>
                 </NavLink>
 
                 {/* Desktop Menu */}
