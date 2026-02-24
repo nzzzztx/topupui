@@ -2,8 +2,39 @@
 export const handlePrintInvoiceRiwayat = (trx) => {
   if (!trx) return;
 
+  const category = (trx.category || trx.type || "").toString().toUpperCase();
+
+  const getJenisTransaksi = () => {
+    switch (category.toUpperCase()) {
+      case "GAMES":
+        return "Top Up Game";
+      case "VOUCHER":
+        return "Top Up Voucher";
+      case "EMONEY":
+        return "Isi Saldo E-Money";
+      case "MOBILE":
+        return "Pulsa / Paket Data";
+      case "BUNDLE":
+        return "Pembelian Bundle";
+      default:
+        return "Transaksi Digital";
+    }
+  };
+
+ const jenisTransaksi = getJenisTransaksi();
+
+ const detailItem = Array.isArray(trx.selectedItems)
+  ? trx.selectedItems.map(i => i.name).join(", ")
+  : trx.item ||
+    trx.denomination ||
+    trx.nominal ||
+    trx.package ||
+    "";
+
   const invoiceWindow = window.open("", "_blank");
   if (!invoiceWindow) return;
+
+  const status = (trx.status || "unknown").toLowerCase();
 
   const formatCurrency = (amount) =>
     Number(amount || 0).toLocaleString("id-ID");
@@ -21,7 +52,7 @@ export const handlePrintInvoiceRiwayat = (trx) => {
   Produk: ${productName}
   Tanggal: ${formatDate(trx.createdAt || trx.date)}
   Total: Rp ${subtotal}
-  Status: ${trx.status}
+  Status: ${status}
   `;
 
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(qrData)}`;
@@ -135,7 +166,7 @@ export const handlePrintInvoiceRiwayat = (trx) => {
 
           <div class="row">
             <span>Jenis</span>
-            <span>Top Up Game</span>
+            <span>${jenisTransaksi}</span>
           </div>
 
           <div class="row">
@@ -143,28 +174,46 @@ export const handlePrintInvoiceRiwayat = (trx) => {
             <span>${productName}</span>
           </div>
 
+          ${
+            Array.isArray(trx.selectedItems) && trx.selectedItems.length > 0
+              ? trx.selectedItems.map(item => `
+                <div class="row">
+                  <span>${item.name}</span>
+                  <span>Rp ${formatCurrency(item.price)}</span>
+                </div>
+              `).join("")
+              : detailItem
+                ? `
+                <div class="row">
+                  <span>Keterangan</span>
+                  <span>${detailItem}</span>
+                </div>
+                `
+                : ""
+          }
+
           <div class="row total">
             <span>Total Bayar</span>
             <span>Rp ${formatCurrency(subtotal)}</span>
           </div>
 
           <div class="status" style="
-          background: ${
-            trx.status === "success"
-              ? "#d1fae5"
-              : trx.status === "pending"
-                ? "#fef9c3"
-                : "#fee2e2"
-          };
-          color: ${
-            trx.status === "success"
-              ? "#065f46"
-              : trx.status === "pending"
-                ? "#854d0e"
-                : "#991b1b"
-          };
+         background: ${
+          status === "success"
+            ? "#d1fae5"
+            : status === "pending"
+              ? "#fef9c3"
+              : "#fee2e2"
+        };
+        color: ${
+          status === "success"
+            ? "#065f46"
+            : status === "pending"
+              ? "#854d0e"
+              : "#991b1b"
+        };
         ">
-          ${trx.status.toUpperCase()}
+          ${status.toUpperCase()}
         </div>
 
           <div class="line"></div>

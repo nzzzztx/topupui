@@ -19,11 +19,6 @@ export default function Categories({
         }
     }, [searchParams, setSearch])
 
-    useEffect(() => {
-        if (search) {
-            setActiveCategory("GAMES")
-        }
-    }, [search, setActiveCategory])
 
     return (
         <div className="px-4 mt-6">

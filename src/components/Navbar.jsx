@@ -2,6 +2,14 @@ import { NavLink, useNavigate } from "react-router-dom"
 import { useState, useRef, useEffect } from "react"
 import { useAuth } from "../context/AuthContext"
 
+import {
+    Home,
+    Tag,
+    ShoppingCart,
+    Calculator,
+    History
+} from "lucide-react"
+
 export default function Navbar() {
     const [open, setOpen] = useState(false)
     const [memberOpen, setMemberOpen] = useState(false)
@@ -10,10 +18,10 @@ export default function Navbar() {
     const { user, logout } = useAuth()
 
     const menu = [
-        { name: "Beranda", path: "/" },
-        { name: "Harga", path: "/harga" },
-        { name: "Pesanan", path: "/pesanan" },
-        { name: "Kalkulator", path: "/kalkulator" },
+        { name: "Beranda", path: "/", icon: Home },
+        { name: "Harga", path: "/harga", icon: Tag },
+        { name: "Pesanan", path: "/pesanan", icon: ShoppingCart },
+        { name: "Kalkulator", path: "/kalkulator", icon: Calculator },
     ]
 
     useEffect(() => {
@@ -42,29 +50,36 @@ export default function Navbar() {
 
                 {/* Desktop Menu */}
                 <div className="hidden md:flex items-center gap-8 text-sm">
-                    {menu.map((item, i) => (
-                        <NavLink
-                            key={i}
-                            to={item.path}
-                            className={({ isActive }) =>
-                                isActive
-                                    ? "text-blue-500"
-                                    : "text-gray-400 hover:text-white transition"
-                            }
-                        >
-                            {item.name}
-                        </NavLink>
-                    ))}
+                    {menu.map((item, i) => {
+                        const Icon = item.icon
+                        return (
+                            <NavLink
+                                key={i}
+                                to={item.path}
+                                className={({ isActive }) =>
+                                    `flex items-center gap-2 transition ${isActive
+                                        ? "text-blue-500"
+                                        : "text-gray-400 hover:text-white"
+                                    }`
+                                }
+                            >
+                                <Icon className="w-4 h-4" />
+                                {item.name}
+                            </NavLink>
+                        )
+                    })}
 
                     {user && (
                         <NavLink
                             to="/riwayat"
                             className={({ isActive }) =>
-                                isActive
+                                `flex items-center gap-2 transition ${isActive
                                     ? "text-blue-500"
-                                    : "text-gray-400 hover:text-white transition"
+                                    : "text-gray-400 hover:text-white"
+                                }`
                             }
                         >
+                            <History className="w-4 h-4" />
                             Riwayat
                         </NavLink>
                     )}
@@ -188,33 +203,38 @@ export default function Navbar() {
                         </div>
                     )}
 
-                    {menu.map((item, i) => (
-                        <NavLink
-                            key={i}
-                            to={item.path}
-                            onClick={() => setOpen(false)}
-                            className={({ isActive }) =>
-                                `transition ${isActive
-                                    ? "text-blue-500"
-                                    : "text-gray-400 hover:text-white"
-                                }`
-                            }
-                        >
-                            {item.name}
-                        </NavLink>
-                    ))}
+                    {menu.map((item, i) => {
+                        const Icon = item.icon
+                        return (
+                            <NavLink
+                                key={i}
+                                to={item.path}
+                                onClick={() => setOpen(false)}
+                                className={({ isActive }) =>
+                                    `flex items-center gap-3 transition ${isActive
+                                        ? "text-blue-500"
+                                        : "text-gray-400 hover:text-white"
+                                    }`
+                                }
+                            >
+                                <Icon className="w-5 h-5" />
+                                {item.name}
+                            </NavLink>
+                        )
+                    })}
 
                     {user && (
                         <NavLink
                             to="/riwayat"
                             onClick={() => setOpen(false)}
                             className={({ isActive }) =>
-                                `transition ${isActive
+                                `flex items-center gap-3 transition ${isActive
                                     ? "text-blue-500"
                                     : "text-gray-400 hover:text-white"
                                 }`
                             }
                         >
+                            <History className="w-5 h-5" />
                             Riwayat
                         </NavLink>
                     )}

@@ -106,18 +106,15 @@ const data = {
 
 export default function GameGrid({ activeCategory, search }) {
 
-    const allItems = Object.values(data).flat()
-
-    const currentItems = search
-        ? allItems
-        : data[activeCategory] || []
+    const currentItems = data[activeCategory] || []
 
     const filteredItems = currentItems.filter((file) => {
         const fileName = file.replace(".png", "")
         const cleanFile = fileName.replace(/_/g, " ").toLowerCase()
-        const normalizedSearch = search.toLowerCase().replace(/-/g, " ")
 
-        return cleanFile.includes(normalizedSearch)
+        if (!search) return true
+
+        return cleanFile.includes(search.toLowerCase())
     })
 
     return (
