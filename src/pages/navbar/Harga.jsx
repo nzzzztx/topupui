@@ -1,13 +1,18 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { categories, hargaData } from "../../data/harga";
 import { Helmet } from "react-helmet";
 
 export default function Harga() {
     const [active, setActive] = useState("Games");
+    const [visibleCount, setVisibleCount] = useState(5);
 
     const filteredData = useMemo(() => {
         return hargaData.filter((item) => item.kategori === active);
     }, [active]);
+
+    const mobileData = useMemo(() => {
+        return filteredData.slice(0, visibleCount);
+    }, [filteredData, visibleCount]);
 
     const formatRupiah = (number) => {
         return new Intl.NumberFormat("id-ID", {
@@ -16,6 +21,10 @@ export default function Harga() {
             minimumFractionDigits: 0,
         }).format(number);
     };
+
+    useEffect(() => {
+        setVisibleCount(5);
+    }, [active]);
 
     return (
         <>
@@ -131,7 +140,7 @@ export default function Harga() {
                                 Tidak ada data tersedia
                             </div>
                         ) : (
-                            filteredData.map((item, index) => (
+                            mobileData.map((item, index) => (
                                 <div
                                     key={index}
                                     className="bg-[#1e2a3f] border border-[#2a3a56] rounded-2xl p-5 shadow-xl"
@@ -167,6 +176,16 @@ export default function Harga() {
                                     </div>
                                 </div>
                             ))
+                        )}
+                        {visibleCount < filteredData.length && (
+                            <div className="text-center mt-4">
+                                <button
+                                    onClick={() => setVisibleCount(prev => prev + 8)}
+                                    className="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded-lg text-sm font-medium transition"
+                                >
+                                    Muat Harga Lagi
+                                </button>
+                            </div>
                         )}
 
                     </div>

@@ -8,6 +8,7 @@ export default function Riwayat() {
     const [transactions, setTransactions] = useState([])
     const [selected, setSelected] = useState(null)
     const navigate = useNavigate()
+    const [visibleCount, setVisibleCount] = useState(5)
 
     const loadData = () => {
         const user = getSecure("xml_user")
@@ -22,12 +23,13 @@ export default function Riwayat() {
             data = getSecure("guest_transactions") || []
         }
 
-        setTransactions(
-            data.sort(
-                (a, b) =>
-                    new Date(b.createdAt) - new Date(a.createdAt)
-            )
+        const sorted = data.sort(
+            (a, b) =>
+                new Date(b.createdAt) - new Date(a.createdAt)
         )
+
+        setTransactions(sorted)
+        setVisibleCount(5)
     }
 
     useEffect(() => {
@@ -49,6 +51,7 @@ export default function Riwayat() {
         if (status === "failed") return "Gagal"
         return status
     }
+    const mobileTransactions = transactions.slice(0, visibleCount)
 
     return (
         <>
@@ -141,7 +144,7 @@ export default function Riwayat() {
 
                             {/* ================= MOBILE CARD ================= */}
                             <div className="md:hidden space-y-4">
-                                {transactions.map((trx) => (
+                                {mobileTransactions.map((trx) => (
                                     <div
                                         key={trx.id}
                                         className="bg-[#1f2937] p-5 rounded-2xl shadow-lg border border-blue-500/10"
@@ -189,6 +192,16 @@ export default function Riwayat() {
                                         </div>
                                     </div>
                                 ))}
+                                {visibleCount < transactions.length && (
+                                    <div className="text-center mt-4">
+                                        <button
+                                            onClick={() => setVisibleCount(prev => prev + 6)}
+                                            className="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded-lg text-sm font-medium transition"
+                                        >
+                                            Muat Riwayat Lagi
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </>
                     )}

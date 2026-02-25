@@ -7,6 +7,11 @@ export default function Pesanan() {
     const [search, setSearch] = useState("");
     const [invoiceInput, setInvoiceInput] = useState("");
     const [localTransactions, setLocalTransactions] = useState([]);
+    const [visibleCount, setVisibleCount] = useState(5);
+
+    useEffect(() => {
+        setVisibleCount(5);
+    }, [search]);
 
     const formatRupiah = (number) => {
         return new Intl.NumberFormat("id-ID", {
@@ -31,6 +36,10 @@ export default function Pesanan() {
             );
         });
     }, [search, combinedData]);
+
+    const mobileData = useMemo(() => {
+        return filteredData.slice(0, visibleCount);
+    }, [filteredData, visibleCount]);
 
     const getStatusColor = (status) => {
         switch (status) {
@@ -199,7 +208,7 @@ export default function Pesanan() {
                                 Tidak ada transaksi ditemukan
                             </div>
                         ) : (
-                            filteredData.map((item, index) => (
+                            mobileData.map((item, index) => (
                                 <div
                                     key={index}
                                     className="bg-[#1a2436] border border-[#24324a] rounded-2xl p-5 shadow-xl hover:scale-[1.01] transition"
@@ -230,6 +239,16 @@ export default function Pesanan() {
                                     </div>
                                 </div>
                             ))
+                        )}
+                        {visibleCount < filteredData.length && (
+                            <div className="text-center mt-4">
+                                <button
+                                    onClick={() => setVisibleCount((prev) => prev + 6)}
+                                    className="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded-lg text-sm font-medium transition"
+                                >
+                                    Muat Pesanan Lagi
+                                </button>
+                            </div>
                         )}
                     </div>
 
