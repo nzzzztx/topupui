@@ -39,7 +39,7 @@ export default function Navbar() {
 
             <div className="flex items-center justify-between">
 
-                <NavLink to="/" className="flex items-center h-full">
+                <NavLink to="/" className="flex items-center h-full flex-shrink-0">
                     {/* <img
                         src={logoTest}
                         alt="XMLTOPUP Logo"
@@ -49,7 +49,7 @@ export default function Navbar() {
                 </NavLink>
 
                 {/* Desktop Menu */}
-                <div className="hidden md:flex items-center gap-8 text-sm">
+                <div className="hidden md:flex items-center gap-6 text-sm flex-1 justify-center min-w-0">
                     {menu.map((item, i) => {
                         const Icon = item.icon
                         return (
@@ -86,12 +86,15 @@ export default function Navbar() {
                 </div>
 
                 {/* Desktop Right */}
-                <div ref={dropdownRef} className="hidden md:flex items-center gap-3 relative">
+                <div
+                    ref={dropdownRef}
+                    className="hidden md:flex items-center gap-2 relative flex-shrink-0"
+                >
 
                     {user && (
                         <div
                             onClick={() => navigate("/saldo")}
-                            className="flex items-center gap-2 bg-[#1f2937] border border-[#2d3748] px-3 py-2 rounded-lg text-sm transition-all duration-300 hover:border-blue-500 hover:bg-[#1b2432]"
+                            className="flex items-center gap-2 bg-[#1f2937] border border-[#2d3748] px-2 py-1.5 rounded-lg text-sm transition-all duration-300 hover:border-blue-500 hover:bg-[#1b2432]"
                         >
                             <span className="text-white-400">
                                 <img
@@ -117,7 +120,7 @@ export default function Navbar() {
                     ) : (
                         <button
                             onClick={() => setMemberOpen(!memberOpen)}
-                            className="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2"
+                            className="bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded-lg text-sm font-medium transition flex items-center gap-2 max-w-[120px] truncate"
                         >
                             {user.username}
                             <span className={`transition-transform duration-300 ${memberOpen ? "rotate-180" : ""}`}>
