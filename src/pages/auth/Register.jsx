@@ -52,7 +52,7 @@ export default function Register() {
     return (
         <>
             <Helmet>
-                <title>Daftar Akun - XML Topup</title>
+                <title>Daftar Akun - XMLGAME</title>
                 <meta
                     name="description"
                     content="Buat akun XML Topup untuk menikmati layanan top up game cepat, murah, dan terpercaya."

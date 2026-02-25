@@ -136,7 +136,7 @@ export default function ProductDetail() {
     return (
         <>
             <Helmet>
-                <title>Top Up {product.name} Murah - XML Topup</title>
+                <title>Top Up {product.name} Murah - XMLGAME</title>
                 <meta
                     name="description"
                     content={`Top up ${product.name} murah, cepat dan terpercaya hanya di XML Topup. Proses instan 24 jam.`}

@@ -20,7 +20,7 @@ export default function Harga() {
     return (
         <>
             <Helmet>
-                <title>Daftar Harga - XML Topup</title>
+                <title>Daftar Harga - XMLGAME</title>
                 <meta
                     name="description"
                     content="Cek daftar harga top up game terbaru dan terlengkap hanya di XML Topup."

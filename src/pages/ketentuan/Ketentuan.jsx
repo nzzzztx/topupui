@@ -17,7 +17,7 @@ export default function Ketentuan() {
     return (
         <>
             <Helmet>
-                <title>Syarat & Ketentuan - XML Topup</title>
+                <title>Syarat & Ketentuan - XMLGAME</title>
                 <meta
                     name="description"
                     content="Baca syarat dan ketentuan penggunaan layanan XML Topup sebelum melakukan transaksi."

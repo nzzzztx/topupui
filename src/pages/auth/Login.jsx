@@ -37,7 +37,7 @@ export default function Login() {
     return (
         <>
             <Helmet>
-                <title>Login - XML Topup</title>
+                <title>Login - XMLGAME</title>
                 <meta
                     name="description"
                     content="Masuk ke akun XML Topup untuk melakukan top up game cepat, aman, dan terpercaya."

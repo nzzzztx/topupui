@@ -53,7 +53,7 @@ export default function Riwayat() {
     return (
         <>
             <Helmet>
-                <title>Riwayat Transaksi - XML Topup</title>
+                <title>Riwayat Transaksi - XMLGAME</title>
                 <meta
                     name="description"
                     content="Lihat riwayat transaksi dan detail pesanan top up kamu dengan mudah di XML Topup."

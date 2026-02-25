@@ -16,7 +16,7 @@ export default function Kalkulator() {
     return (
         <>
             <Helmet>
-                <title>Kalkulator Game - XML Topup</title>
+                <title>Kalkulator Game - XMLGAME</title>
                 <meta
                     name="description"
                     content="Gunakan kalkulator game untuk menghitung Win Rate, Point Zodiac, dan Magic Wheel hanya di XML Topup."

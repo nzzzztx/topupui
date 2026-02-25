@@ -46,7 +46,7 @@ export default function ForgotPassword() {
     return (
         <>
             <Helmet>
-                <title>Lupa Password - XML Topup</title>
+                <title>Lupa Password - XMLGAME</title>
                 <meta
                     name="description"
                     content="Reset password akun XML Topup dengan mudah dan cepat."

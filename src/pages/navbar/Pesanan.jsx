@@ -84,7 +84,7 @@ export default function Pesanan() {
     return (
         <>
             <Helmet>
-                <title>Cek Pesanan - XML Topup</title>
+                <title>Cek Pesanan - XMLGAME</title>
                 <meta
                     name="description"
                     content="Cek status transaksi dan pesanan top up kamu secara cepat dan mudah di XML Topup."

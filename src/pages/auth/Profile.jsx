@@ -70,7 +70,7 @@ export default function Profile() {
     return (
         <>
             <Helmet>
-                <title>Profil Saya - XML Topup</title>
+                <title>Profil Saya - XMLGAME</title>
                 <meta
                     name="description"
                     content="Kelola profil, keamanan akun, password, dan afiliasi Anda di XML Topup."

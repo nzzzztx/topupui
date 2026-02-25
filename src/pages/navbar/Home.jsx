@@ -12,7 +12,7 @@ export default function Home() {
     return (
         <>
             <Helmet>
-                <title>XML Topup - Top Up Game Termurah</title>
+                <title>XMLGAME - Top Up Game Termurah</title>
                 <meta name="description" content="Top up game murah, cepat dan terpercaya hanya di XML Topup." />
                 <meta property="og:title" content="XML Topup - Top Up Game Termurah" />
             </Helmet>

@@ -109,7 +109,7 @@ export default function Saldo() {
     return (
         <>
             <Helmet>
-                <title>Saldo Saya - XML Topup</title>
+                <title>Saldo Saya - XMLGAME</title>
                 <meta
                     name="description"
                     content="Kelola saldo akun dan lihat riwayat top up kamu di XML Topup dengan aman dan mudah."

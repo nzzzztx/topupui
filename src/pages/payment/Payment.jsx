@@ -128,7 +128,7 @@ export default function Payment() {
     return (
         <>
             <Helmet>
-                <title>Pembayaran - XML Topup</title>
+                <title>Pembayaran - XMLGAME</title>
                 <meta
                     name="description"
                     content="Selesaikan pembayaran transaksi top up kamu dengan aman dan cepat di XML Topup."
